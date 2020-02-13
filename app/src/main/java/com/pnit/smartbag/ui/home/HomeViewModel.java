@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
@@ -24,5 +28,9 @@ public class HomeViewModel extends ViewModel {
     public void newStep(){
         currentSteps++;
         mText.setValue(String.valueOf(currentSteps));
+    }
+
+    public String getFormattedData(String pattern) {
+        return new SimpleDateFormat(pattern, Locale.US).format(new Date());
     }
 }
