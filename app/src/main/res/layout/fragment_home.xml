@@ -12,13 +12,13 @@
         android:text="Steps"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/pbBonus"
-        app:layout_constraintEnd_toEndOf="@+id/pbBonus"
-        app:layout_constraintStart_toStartOf="@+id/pbBonus"
-        app:layout_constraintTop_toTopOf="@+id/pbBonus" />
+        app:layout_constraintBottom_toBottomOf="@+id/pb_goal"
+        app:layout_constraintEnd_toEndOf="@+id/pb_goal"
+        app:layout_constraintStart_toStartOf="@+id/pb_goal"
+        app:layout_constraintTop_toTopOf="@+id/pb_goal" />
 
     <ProgressBar
-        android:id="@+id/pbBonus"
+        android:id="@+id/pb_goal"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -33,5 +33,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_weekday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="50dp"
+        android:text="Weekday"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pb_goal" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Calories:"
+        app:layout_constraintStart_toStartOf="@+id/text_weekday"
+        app:layout_constraintTop_toBottomOf="@+id/text_weekday" />
+
+    <TextView
+        android:id="@+id/text_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="xx"
+        app:layout_constraintStart_toEndOf="@+id/textView1"
+        app:layout_constraintTop_toTopOf="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="kcal"
+        app:layout_constraintStart_toEndOf="@+id/text_calories"
+        app:layout_constraintTop_toTopOf="@+id/textView1" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="Date"
+        app:layout_constraintStart_toEndOf="@+id/text_weekday"
+        app:layout_constraintTop_toTopOf="@+id/text_weekday" />
+
+    <Button
+        android:id="@+id/btn_demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Demo Add Steps"
+        app:layout_constraintStart_toStartOf="@+id/text_weekday"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
