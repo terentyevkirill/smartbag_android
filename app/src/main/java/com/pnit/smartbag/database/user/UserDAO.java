@@ -1,4 +1,4 @@
-package com.pnit.smartbag.base.user;
+package com.pnit.smartbag.database.user;
 
 import java.util.List;
 

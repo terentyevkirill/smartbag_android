@@ -1,21 +1,30 @@
-package com.pnit.smartbag.base.activity;
+package com.pnit.smartbag.database.activity;
 
-import com.pnit.smartbag.base.user.User;
+import com.pnit.smartbag.database.user.User;
 
 import java.util.Date;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Activity {
 
+    @PrimaryKey
     private long id;
+    @ColumnInfo(name = "date")
     private Date date;
+    @ColumnInfo(name = "steps")
     private int steps;
-    private User user;
+    @ColumnInfo(name = "user_id")
+    private long userId;
 
     public Activity(long id, Date date, int steps, User user) {
         this.id = id;
         this.date = date;
         this.steps = steps;
-        this.user = user;
+        this.userId = user.getId();
     }
 
     public long getId() {
@@ -42,11 +51,11 @@ public class Activity {
         this.steps = steps;
     }
 
-    public User getUser() {
-        return user;
+    public long getUser() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(long userId) {
+        this.userId = userId;
     }
 }

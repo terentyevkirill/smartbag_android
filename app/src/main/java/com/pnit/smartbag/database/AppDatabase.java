@@ -1,17 +1,20 @@
-package com.pnit.smartbag.base;
+package com.pnit.smartbag.database;
 
 import android.content.Context;
 
-import com.pnit.smartbag.base.user.User;
-import com.pnit.smartbag.base.user.UserDAO;
+import com.pnit.smartbag.database.activity.Activity;
+import com.pnit.smartbag.database.activity.ActivityDAO;
+import com.pnit.smartbag.database.user.User;
+import com.pnit.smartbag.database.user.UserDAO;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Activity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDao();
+    public abstract ActivityDAO activityDAO();
 
     public static final String DB_NAME = "smart_bag.db";
     private static volatile AppDatabase instance;
