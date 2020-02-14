@@ -8,17 +8,18 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.R;
+import com.pnit.smartbag.base.AppDatabase;
+import com.pnit.smartbag.base.user.User;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.room.Room;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -57,6 +58,10 @@ public class HomeFragment extends Fragment {
 
         goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
         demoButton.setOnClickListener(v -> homeViewModel.newStep());
+
+        AppDatabase db = AppDatabase.getInstance(this.getContext());
+        System.out.println(db.userDao().getAllUsers().get(0).getUsername());
+
         return root;
     }
 }
