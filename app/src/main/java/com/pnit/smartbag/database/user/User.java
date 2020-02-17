@@ -13,8 +13,8 @@ public class User {
     private String username;
     @ColumnInfo(name = "password")
     private String password;
-    @ColumnInfo(name = "is_registrated")
-    private boolean isRegistrated;
+    @ColumnInfo(name = "is_registered")
+    private boolean isRegistered;
     @ColumnInfo(name = "daily_goal")
     private int dailyGoal;
     @ColumnInfo(name = "weight")
@@ -22,11 +22,11 @@ public class User {
     @ColumnInfo(name = "height")
     private float height;
 
-    public User(long id, String username, String password, boolean isRegistrated, int dailyGoal, float weight, float height) {
+    public User(long id, String username, String password, boolean isRegistered, int dailyGoal, float weight, float height) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.isRegistrated = isRegistrated;
+        this.isRegistered = isRegistered;
         this.dailyGoal = dailyGoal;
         this.weight = weight;
         this.height = height;
@@ -56,12 +56,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean isRegistrated() {
-        return isRegistrated;
+    public boolean isRegistered() {
+        return isRegistered;
     }
 
-    public void setRegistrated(boolean registrated) {
-        isRegistrated = registrated;
+    public void setRegistered(boolean registered) {
+        isRegistered = registered;
     }
 
     public int getDailyGoal() {
