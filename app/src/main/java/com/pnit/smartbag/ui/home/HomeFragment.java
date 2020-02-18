@@ -9,12 +9,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnit.smartbag.R;
+import com.pnit.smartbag.database.user.User;
+import com.pnit.smartbag.database.user.UserViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;

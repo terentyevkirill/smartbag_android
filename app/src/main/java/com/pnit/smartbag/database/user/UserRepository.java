@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.pnit.smartbag.database.AppDatabase;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -32,10 +33,20 @@ public class UserRepository {
         task.execute(name);
     }
 
-    public void findUser(String name) {
+    public User findUser(String name) {
         QueryAsyncTask task = new QueryAsyncTask(userDAO);
         task.delegate = this;
         task.execute(name);
+
+        try {
+            if (task.get().size() >0)
+                return task.get().get(0);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void asyncFinished(List<User> results){

@@ -76,8 +76,8 @@ public class User {
         return weight;
     }
 
-    public void setWeight(float weigth) {
-        this.weight = weigth;
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
     public float getHeight() {

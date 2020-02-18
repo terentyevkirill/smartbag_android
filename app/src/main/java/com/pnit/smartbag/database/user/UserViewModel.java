@@ -34,8 +34,8 @@ public class UserViewModel extends AndroidViewModel {
         repository.insertUser(user);
     }
 
-    public void findUser(String name) {
-        repository.findUser(name);
+    public User findUser(String name) {
+        return repository.findUser(name);
     }
 
     public void deleteUser(String name) {
