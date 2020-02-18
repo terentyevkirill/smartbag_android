@@ -5,6 +5,7 @@ import com.pnit.smartbag.Converters;
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,18 +16,21 @@ import androidx.room.TypeConverters;
 public interface ActivityDAO {
 
     @Query("SELECT * FROM activity")
-    List<Activity> getAllUsers();
+    LiveData<List<Activity>> getAllActivities();
 
     @Query("SELECT * FROM activity WHERE id in (:userIds)")
     List<Activity> loadAllByUserIds(int[] userIds);
 
-    @Query("SELECT * FROM activity WHERE date LIKE :date LIMIT 1")
+    @Query("SELECT * FROM activity WHERE date LIKE :date")
     @TypeConverters({Converters.class})
-    Activity findByDate(Date date);
+    List<Activity> findByDate(Date date);
+
+    @Query("SELECT * FROM activity WHERE id LIKE :id")
+    List<Activity> findById(String id);
 
     @Insert
     void insertAll(Activity... activity);
 
-    @Delete
-    void delete(Activity activity);
+    @Query("DELETE FROM activity WHERE id = :name")
+    void delete(String name);
 }
