@@ -9,8 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnit.smartbag.R;
-import com.pnit.smartbag.database.user.User;
-import com.pnit.smartbag.database.user.UserViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -40,22 +38,19 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this, new HomeViewModel.Factory(getContext())).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, root);
 
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
         weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
         dateTextView.setText(homeViewModel.getFormattedData("MMMM, dd"));
         goalProgressBar.setMax(homeViewModel.getGoal());
 
-        homeViewModel.getText().observe(this, s -> {
+        homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
+            goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
             stepsTextView.setText(s);
         });
 
-        goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
         demoButton.setOnClickListener(v -> homeViewModel.newStep());
 
         return root;

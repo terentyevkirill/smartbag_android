@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.pnit.smartbag.ui.data.LoginDataSource;
-import com.pnit.smartbag.ui.data.LoginRepository;
+import com.pnit.smartbag.data.login.LoginDataSource;
+import com.pnit.smartbag.data.login.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

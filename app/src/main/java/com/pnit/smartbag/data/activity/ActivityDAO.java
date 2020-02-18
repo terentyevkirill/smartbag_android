@@ -1,13 +1,13 @@
-package com.pnit.smartbag.database.activity;
+package com.pnit.smartbag.data.activity;
 
 import com.pnit.smartbag.Converters;
+import com.pnit.smartbag.data.activity.model.Activity;
 
 import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;

@@ -1,6 +1,6 @@
-package com.pnit.smartbag.ui.data;
+package com.pnit.smartbag.data.login;
 
-import com.pnit.smartbag.ui.data.model.LoggedInUser;
+import com.pnit.smartbag.data.login.model.LoggedInUser;
 
 import java.io.IOException;
 

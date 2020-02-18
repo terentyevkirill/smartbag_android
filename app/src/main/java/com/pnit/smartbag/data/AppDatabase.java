@@ -1,11 +1,11 @@
-package com.pnit.smartbag.database;
+package com.pnit.smartbag.data;
 
 import android.content.Context;
 
-import com.pnit.smartbag.database.activity.Activity;
-import com.pnit.smartbag.database.activity.ActivityDAO;
-import com.pnit.smartbag.database.user.User;
-import com.pnit.smartbag.database.user.UserDAO;
+import com.pnit.smartbag.data.activity.model.Activity;
+import com.pnit.smartbag.data.activity.ActivityDAO;
+import com.pnit.smartbag.data.user.model.User;
+import com.pnit.smartbag.data.user.UserDAO;
 
 import androidx.room.Database;
 import androidx.room.Room;

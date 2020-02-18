@@ -1,9 +1,10 @@
-package com.pnit.smartbag.database.user;
+package com.pnit.smartbag.data.user;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.pnit.smartbag.database.AppDatabase;
+import com.pnit.smartbag.data.AppDatabase;
+import com.pnit.smartbag.data.user.model.User;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

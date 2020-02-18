@@ -1,14 +1,13 @@
-package com.pnit.smartbag.database.activity;
+package com.pnit.smartbag.data.activity.model;
 
 import com.pnit.smartbag.Converters;
-import com.pnit.smartbag.database.user.User;
+import com.pnit.smartbag.data.user.model.User;
 
 import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 @Entity

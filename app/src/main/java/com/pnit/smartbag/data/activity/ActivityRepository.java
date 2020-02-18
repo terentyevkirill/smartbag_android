@@ -1,9 +1,11 @@
-package com.pnit.smartbag.database.activity;
+package com.pnit.smartbag.data.activity;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.pnit.smartbag.database.AppDatabase;
+import com.pnit.smartbag.data.AppDatabase;
+import com.pnit.smartbag.data.activity.model.Activity;
+
 import java.util.List;
 
 import androidx.lifecycle.LiveData;

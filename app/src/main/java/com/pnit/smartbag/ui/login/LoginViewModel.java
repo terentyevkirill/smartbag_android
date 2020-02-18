@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel;
 import android.util.Patterns;
 
 import com.pnit.smartbag.R;
-import com.pnit.smartbag.ui.data.LoginRepository;
-import com.pnit.smartbag.ui.data.Result;
-import com.pnit.smartbag.ui.data.model.LoggedInUser;
+import com.pnit.smartbag.data.login.LoginRepository;
+import com.pnit.smartbag.data.login.Result;
+import com.pnit.smartbag.data.login.model.LoggedInUser;
 
 public class LoginViewModel extends ViewModel {
 

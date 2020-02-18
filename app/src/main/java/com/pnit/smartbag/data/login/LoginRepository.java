@@ -1,6 +1,6 @@
-package com.pnit.smartbag.ui.data;
+package com.pnit.smartbag.data.login;
 
-import com.pnit.smartbag.ui.data.model.LoggedInUser;
+import com.pnit.smartbag.data.login.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and

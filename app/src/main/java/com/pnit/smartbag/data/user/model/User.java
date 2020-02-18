@@ -1,4 +1,4 @@
-package com.pnit.smartbag.database.user;
+package com.pnit.smartbag.data.user.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

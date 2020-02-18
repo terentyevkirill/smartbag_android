@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.data.model;
+package com.pnit.smartbag.data.login.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

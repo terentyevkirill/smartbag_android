@@ -20,7 +20,7 @@ public class ProfileViewModel extends ViewModel {
 
     public String getBMIcalc(Float hight, Float weight){return BMIcalc(hight, weight); }
 
-    /*public LiveData<String> getText() {
+    /*public LiveData<String> getSteps() {
         return mText;
     }*/
 }
