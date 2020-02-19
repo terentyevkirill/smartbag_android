@@ -50,6 +50,22 @@ public class UserRepository {
         return null;
     }
 
+    public User findUserWithoutRegistration(){
+        QueryAsyncTask2 task = new QueryAsyncTask2(userDAO);
+        task.delegate = this;
+        task.execute("");
+
+        try {
+            if (task.get().size() >0)
+                return task.get().get(0);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void asyncFinished(List<User> results){
         searchResults.setValue(results);
     }
@@ -72,6 +88,24 @@ public class UserRepository {
         @Override
         protected List<User> doInBackground(final String... params){
             return asyncTaskDao.findByName(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> result){
+            delegate.asyncFinished(result);
+        }
+    }
+
+    private static class QueryAsyncTask2 extends AsyncTask<String, Void, List<User>>{
+        private UserDAO asyncTaskDao;
+        private UserRepository delegate = null;
+        QueryAsyncTask2(UserDAO dao){
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected List<User> doInBackground(final String... params){
+            return asyncTaskDao.loadUserWithoutRegistration();
         }
 
         @Override

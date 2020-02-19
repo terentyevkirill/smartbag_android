@@ -14,8 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.R;
 import com.pnit.smartbag.R2;
+
+import static com.pnit.smartbag.MainActivity.getLoggedInUser;
 
 public class ProfileFragment extends Fragment {
 
@@ -30,10 +33,23 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         EditText bmi = root.findViewById(R.id.bmi);
-        EditText hight = root.findViewById(R.id.number_hight);
+        EditText height = root.findViewById(R.id.number_hight);
         EditText weight = root.findViewById(R.id.number_weight);
+        EditText userName = root.findViewById(R.id.display_name);
+        TextView userNameText = root.findViewById(R.id.text_userName);
+
+        String loggedInUserName = profileViewModel.getUserName((MainActivity)getActivity());
+        if (loggedInUserName== null) {
+            userName.setVisibility(View.INVISIBLE);
+            userNameText.setVisibility(View.INVISIBLE);
+        } else
+            userName.setText(loggedInUserName);
+
+        weight.setText(String.valueOf(profileViewModel.getWeight()));
+        height.setText(String.valueOf(profileViewModel.getHeight()));
+
         calcButton = root.findViewById(R.id.calc);
-        calcButton.setOnClickListener(v -> bmi.setText(profileViewModel.getBMIcalc(Float.valueOf(hight.getText().toString()), Float.valueOf(weight.getText().toString()))));
+        calcButton.setOnClickListener(v -> bmi.setText(profileViewModel.getBMIcalc(Float.valueOf(height.getText().toString()), Float.valueOf(weight.getText().toString()))));
 
         return root;
     }

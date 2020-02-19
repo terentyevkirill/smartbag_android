@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment {
     TextView stepsTextView;
     @BindView(R.id.btn_demo)
     Button demoButton;
+    @BindView((R.id.calories_tv))
+    TextView caloriesTextView;
 
     private HomeViewModel homeViewModel;
 
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
             goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
             stepsTextView.setText(s);
+            caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
         });
 
         demoButton.setOnClickListener(v -> homeViewModel.newStep());

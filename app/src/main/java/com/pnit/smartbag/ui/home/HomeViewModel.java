@@ -3,6 +3,7 @@ package com.pnit.smartbag.ui.home;
 import android.content.Context;
 
 import com.pnit.smartbag.data.activity.ActivityRepository;
+import com.pnit.smartbag.data.calories.CalorieCalculator;
 import com.pnit.smartbag.data.user.UserRepository;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeViewModel extends ViewModel {
@@ -20,6 +23,9 @@ public class HomeViewModel extends ViewModel {
     //Access to local database via repositories
     private ActivityRepository activityRepo;
     private UserRepository userRepo;
+
+    //Access to Calorie Calculator once initialized with height and weight of user
+    private CalorieCalculator calorieCalculator;
 
     private MutableLiveData<String> liveDataSteps; //Live Data for number of steps
     private int currentSteps = 0; //Variable for representing steps as int transferred via bluetooth
@@ -30,6 +36,7 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel(Context context) {
         activityRepo = new ActivityRepository(context);
         userRepo = new UserRepository(context);
+        calorieCalculator = new CalorieCalculator(150, 80);
 
         liveDataSteps = new MutableLiveData<>();
         liveDataSteps.setValue(String.valueOf(currentSteps));
@@ -59,6 +66,15 @@ public class HomeViewModel extends ViewModel {
     public String getFormattedData(String pattern) {
         return new SimpleDateFormat(pattern, Locale.US).format(new Date());
     }
+
+    public int getCurrentSteps(){
+        return currentSteps;
+    }
+
+    public int getCalories(){
+       return calorieCalculator.calculateCalories(currentSteps);
+    }
+
 
     public static class Factory implements ViewModelProvider.Factory {
         private final Context ctxt;

@@ -3,6 +3,7 @@ package com.pnit.smartbag;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pnit.smartbag.data.login.model.LoggedInUser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -11,6 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static LoggedInUser loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +28,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    public static void setLoggedInUser(LoggedInUser user){
+        loggedInUser = user;
+    }
+
+    public static LoggedInUser getLoggedInUser(){
+        return loggedInUser;
     }
 }
