@@ -21,10 +21,8 @@ class BluetoothConnectionService : Service() {
         const val ACTION_DEVICE_CONNECTED = "action_device_connected"
         const val ACTION_DEVICE_DISCONNECTED = "action_device_disconnected"
         const val ACTION_STEPS_SENT = "action_steps_sent"
-//        const val ACTION_CUBE_FACE_DATA_SENT = "action_cube_face_data_sent"
         const val ACTION_SERVICE_CREATED = "action_service_created"
         const val ACTION_SERVICE_DESTROYED = "action_service_destroyed"
-//        const val EXTRA_CUBE_FACE = "cube_face"
 
         private const val FOREGROUND_ID = 6
         private const val NOTIFICATION_CHANNEL_NAME = "Connection Service"
@@ -38,8 +36,6 @@ class BluetoothConnectionService : Service() {
     private val dataListener = object : DataListener {
         override fun onData(data: String) {
             val steps = extractSteps(data)
-//            val coordinates = extractCoordinates(data)
-//            val face = CubeFace.fromCoordinates(coordinates.first, coordinates.second)
 //            broadcastCurrentCubeFace(face)
             v("ConnectionService", "onData: $data, steps = $steps")
         }
