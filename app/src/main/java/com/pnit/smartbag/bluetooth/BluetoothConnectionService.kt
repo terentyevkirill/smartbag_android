@@ -35,14 +35,9 @@ class BluetoothConnectionService : Service() {
     // Broadcast steps?:
     private val dataListener = object : DataListener {
         override fun onData(data: String) {
-            val steps = extractSteps(data)
 //            broadcastCurrentCubeFace(face)
-            v("BTConnectionService", "onData: $data, steps = $steps")
+            v("BTConnectionService", "onData: $data")
         }
-    }
-
-    private fun extractSteps(data: String): Int? {
-        return data.toIntOrNull()
     }
 
     private val connectionStateListener = object : ConnectionListener {
@@ -61,6 +56,11 @@ class BluetoothConnectionService : Service() {
     }
 
     private val bluetoothManager = BluetoothManager(dataListener, connectionStateListener)
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
+    }
 
     override fun onCreate() {
         super.onCreate()
