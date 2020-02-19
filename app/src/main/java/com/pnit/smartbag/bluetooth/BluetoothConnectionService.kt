@@ -25,19 +25,19 @@ class BluetoothConnectionService : Service() {
         const val ACTION_SERVICE_DESTROYED = "action_service_destroyed"
 
         private const val FOREGROUND_ID = 6
-        private const val NOTIFICATION_CHANNEL_NAME = "Connection Service"
-        private const val NOTIFICATION_CHANNEL_ID = "connection_service"
+        private const val NOTIFICATION_CHANNEL_NAME = "Bluetooth Connection Service"
+        private const val NOTIFICATION_CHANNEL_ID = "bt_connection_service"
 
         var isDeviceConnected = false
             private set
     }
 
-    // Broadcast steps?
+    // Broadcast steps?:
     private val dataListener = object : DataListener {
         override fun onData(data: String) {
             val steps = extractSteps(data)
 //            broadcastCurrentCubeFace(face)
-            v("ConnectionService", "onData: $data, steps = $steps")
+            v("BTConnectionService", "onData: $data, steps = $steps")
         }
     }
 
@@ -50,13 +50,13 @@ class BluetoothConnectionService : Service() {
         override fun onConnected() {
             broadcastEvent(ACTION_DEVICE_CONNECTED)
             isDeviceConnected = true
-            v("ConnectionService", "onConnected")
+            v("BTConnectionService", "onConnected")
         }
 
         override fun onDisconnected() {
             broadcastEvent(ACTION_DEVICE_DISCONNECTED)
             isDeviceConnected = false
-            v("ConnectionService", "onDisconnected")
+            v("BTConnectionService", "onDisconnected")
         }
     }
 
@@ -64,7 +64,7 @@ class BluetoothConnectionService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        v("ConnectionService", "onCreate()")
+        v("BTConnectionService", "onCreate()")
         broadcastEvent(ACTION_SERVICE_CREATED)
         try {
             val remoteDevice = bluetoothManager.getRemoteDevice(BluetoothManager.PROTOTYPE_ADDRESS)
