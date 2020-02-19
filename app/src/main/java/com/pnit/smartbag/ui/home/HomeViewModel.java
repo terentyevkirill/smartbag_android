@@ -13,7 +13,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +32,8 @@ public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> liveDataSteps; //Live Data for number of steps
     private int currentSteps = 0; //Variable for representing steps as int transferred via bluetooth
+    private MutableLiveData<Date> liveDataDate;
+    private Date currentDate = new Date();
 
     private final int GOAL_DAILY_STEPS = 10000; //when data from user is not correct, use this constant
 
@@ -40,6 +45,29 @@ public class HomeViewModel extends ViewModel {
 
         liveDataSteps = new MutableLiveData<>();
         liveDataSteps.setValue(String.valueOf(currentSteps));
+
+        liveDataDate = new MutableLiveData<>();
+        liveDataDate.setValue(new Date());
+    }
+
+    public void setDateMinus1(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, -1);
+        currentDate = cal.getTime();
+        liveDataDate.setValue(currentDate);
+    }
+
+    public void setDatePlus1(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, 1);
+        currentDate = cal.getTime();
+        liveDataDate.setValue(currentDate);
+    }
+
+    public LiveData<Date> getCurrentDate(){
+        return liveDataDate;
     }
 
     public LiveData<String> getSteps() {
@@ -64,7 +92,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public String getFormattedData(String pattern) {
-        return new SimpleDateFormat(pattern, Locale.US).format(new Date());
+        return new SimpleDateFormat(pattern, Locale.US).format(currentDate);
     }
 
     public int getCurrentSteps(){
