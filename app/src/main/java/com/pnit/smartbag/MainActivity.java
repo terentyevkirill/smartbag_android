@@ -3,7 +3,10 @@ package com.pnit.smartbag;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pnit.smartbag.data.jwt.Jwt;
 import com.pnit.smartbag.data.login.model.LoggedInUser;
+
+import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -37,4 +40,11 @@ public class MainActivity extends AppCompatActivity {
     public static LoggedInUser getLoggedInUser(){
         return loggedInUser;
     }
+
+    //TODO
+    private void makeJsonObjectRequest(){
+        Jwt jwt = new Jwt(MainActivity.class.getSimpleName(), new JSONObject());
+        jwt.makeJsonRequest();
+    }
+
 }
