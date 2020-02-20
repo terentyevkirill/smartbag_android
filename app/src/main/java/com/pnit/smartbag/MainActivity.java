@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pnit.smartbag.data.jwt.Jwt;
+import com.pnit.smartbag.data.login.model.LoggedInUser;
+
+import org.json.JSONObject;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.pnit.smartbag.bluetooth.BluetoothConnectionService;
 import androidx.annotation.NonNull;
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int ACCESS_FINE_LOCATION_REQUEST_CODE = 1;
 
+    private static LoggedInUser loggedInUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        
+
         checkPermissions();
         startBluetoothService();
     }
@@ -90,4 +97,19 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         stopService(new Intent(this, BluetoothConnectionService.class));
     }
+
+    public static void setLoggedInUser(LoggedInUser user){
+        loggedInUser = user;
+    }
+
+    public static LoggedInUser getLoggedInUser(){
+        return loggedInUser;
+    }
+
+    //TODO
+    private void makeJsonObjectRequest(){
+        Jwt jwt = new Jwt(MainActivity.class.getSimpleName(), new JSONObject());
+        jwt.makeJsonRequest();
+    }
+
 }

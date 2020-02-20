@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
+import android.widget.Toast;
 
+import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.R;
 import com.pnit.smartbag.data.login.LoginRepository;
 import com.pnit.smartbag.data.login.Result;
@@ -35,11 +37,13 @@ public class LoginViewModel extends ViewModel {
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+            MainActivity.setLoggedInUser(data);
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
     }
+
 
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {

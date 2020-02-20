@@ -1,6 +1,7 @@
 package com.pnit.smartbag.ui.home;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -30,8 +32,16 @@ public class HomeFragment extends Fragment {
     ProgressBar goalProgressBar;
     @BindView(R.id.steps_tv)
     TextView stepsTextView;
+    @BindView(R.id.daily_steps_tv)
+    TextView dailyStepsTextView;
     @BindView(R.id.btn_demo)
     Button demoButton;
+    @BindView((R.id.calories_tv))
+    TextView caloriesTextView;
+    @BindView(R.id.down_btn)
+    Button downButton;
+    @BindView(R.id.up_btn)
+    Button upButton;
 
     private HomeViewModel homeViewModel;
 
@@ -42,16 +52,28 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, root);
 
-        weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
-        dateTextView.setText(homeViewModel.getFormattedData("MMMM, dd"));
         goalProgressBar.setMax(homeViewModel.getGoal());
+        dailyStepsTextView.setText(String.valueOf(homeViewModel.getGoal()));
 
         homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
-            goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
+            goalProgressBar.setProgress(homeViewModel.getCurrentSteps());
             stepsTextView.setText(s);
+            caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
         });
 
-        demoButton.setOnClickListener(v -> homeViewModel.newStep());
+        demoButton.setOnClickListener(v -> homeViewModel.setSteps(100));
+        homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s -> {
+            weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
+            dateTextView.setText(homeViewModel.getFormattedData("MMMM, dd"));
+            if (DateUtils.isToday(homeViewModel.getCurrentDate().getValue().getTime())) {
+                upButton.setVisibility(View.INVISIBLE);
+            } else
+                upButton.setVisibility(View.VISIBLE);
+        });
+
+        upButton.setOnClickListener(v -> homeViewModel.setDatePlus1());
+        downButton.setOnClickListener(v -> homeViewModel.setDateMinus1());
+
 
         return root;
     }
