@@ -1,6 +1,7 @@
 package com.pnit.smartbag.ui.home;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,20 +52,25 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, root);
 
-        goalProgressBar.setMax(homeViewModel.getGoal()/100); //(/100) just for demonstrating purposes
-        dailyStepsTextView.setText(String.valueOf(homeViewModel.getGoal()/100));
+        goalProgressBar.setMax(homeViewModel.getGoal());
+        dailyStepsTextView.setText(String.valueOf(homeViewModel.getGoal()));
 
         homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
-            goalProgressBar.setProgress(goalProgressBar.getProgress() + 1);
+            goalProgressBar.setProgress(homeViewModel.getCurrentSteps());
             stepsTextView.setText(s);
             caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
         });
 
-        demoButton.setOnClickListener(v -> homeViewModel.newStep());
-        homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s ->{
+        demoButton.setOnClickListener(v -> homeViewModel.setSteps(100));
+        homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s -> {
             weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
             dateTextView.setText(homeViewModel.getFormattedData("MMMM, dd"));
+            if (DateUtils.isToday(homeViewModel.getCurrentDate().getValue().getTime())) {
+                upButton.setVisibility(View.INVISIBLE);
+            } else
+                upButton.setVisibility(View.VISIBLE);
         });
+
         upButton.setOnClickListener(v -> homeViewModel.setDatePlus1());
         downButton.setOnClickListener(v -> homeViewModel.setDateMinus1());
 

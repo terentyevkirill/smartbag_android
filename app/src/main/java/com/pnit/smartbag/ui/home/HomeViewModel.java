@@ -2,9 +2,11 @@ package com.pnit.smartbag.ui.home;
 
 import android.content.Context;
 
+import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.data.activity.ActivityRepository;
 import com.pnit.smartbag.data.calories.CalorieCalculator;
 import com.pnit.smartbag.data.user.UserRepository;
+import com.pnit.smartbag.data.user.model.User;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -37,6 +39,8 @@ public class HomeViewModel extends ViewModel {
 
     private final int GOAL_DAILY_STEPS = 10000; //when data from user is not correct, use this constant
 
+    User user;
+
     public HomeViewModel(Context context) {
         activityRepo = new ActivityRepository(context);
         userRepo = new UserRepository(context);
@@ -47,6 +51,12 @@ public class HomeViewModel extends ViewModel {
 
         liveDataDate = new MutableLiveData<>();
         liveDataDate.setValue(new Date());
+
+        if (MainActivity.getLoggedInUser() == null){
+            user = userRepo.findUserWithoutRegistration();
+        } else {
+            //ToDO: Get User from Remote Database
+        }
     }
 
     public void setDateMinus1(){
@@ -75,14 +85,13 @@ public class HomeViewModel extends ViewModel {
     }
 
     public int getGoal(){
+        try{
+            return user.getDailyGoal();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         //if information about user possible, then users preferred goal
         return GOAL_DAILY_STEPS;
-    }
-
-    //data from demo Button
-    public void newStep(){
-        currentSteps++;
-        liveDataSteps.setValue(String.valueOf(currentSteps));
     }
 
     //using bluetooth and amount of steps
