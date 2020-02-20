@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log.v
@@ -13,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.pnit.smartbag.R
+import com.pnit.smartbag.data.activity.ActivityRepository
 
 
 class BluetoothConnectionService : Service() {
@@ -31,11 +33,34 @@ class BluetoothConnectionService : Service() {
         var isDeviceConnected = false
             private set
     }
+    private val repository = ActivityRepository(applicationContext)
 
+    private val listeners = arrayListOf<DataListener>()
+
+    fun registerForUpdates(listener: DataListener) {
+        listeners.add(listener)
+    }
+
+    fun unregisterListeners() {
+        listeners.clear()
+    }
+
+    private fun broadcastData(data: String) {
+        listeners.forEach {
+            it.onData(data)
+        }
+    }
+
+    override fun onBind(intent: Intent?): IBinder? = BluetoothConnectionBinder()
+
+    inner class BluetoothConnectionBinder : Binder() {
+        fun getService(): BluetoothConnectionService = this@BluetoothConnectionService
+    }
     // Broadcast steps?:
     private val dataListener = object : DataListener {
         override fun onData(data: String) {
-//            broadcastCurrentCubeFace(face)
+//            broadcastCurrentCubeFace(f    ace)
+
             v("BTConnectionService", "onData: $data")
         }
     }
@@ -124,5 +149,4 @@ class BluetoothConnectionService : Service() {
         return id
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
 }
