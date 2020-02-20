@@ -37,7 +37,6 @@ public class HomeViewModel extends ViewModel {
 
     private final int GOAL_DAILY_STEPS = 10000; //when data from user is not correct, use this constant
 
-
     public HomeViewModel(Context context) {
         activityRepo = new ActivityRepository(context);
         userRepo = new UserRepository(context);
@@ -51,19 +50,20 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void setDateMinus1(){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        cal.add(Calendar.DATE, -1);
-        currentDate = cal.getTime();
+        currentDate = changeDate(-1, currentDate);
         liveDataDate.setValue(currentDate);
     }
 
     public void setDatePlus1(){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        cal.add(Calendar.DATE, 1);
-        currentDate = cal.getTime();
+        currentDate = changeDate(1, currentDate);
         liveDataDate.setValue(currentDate);
+    }
+
+    private Date changeDate(int amount, Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, amount);
+        return cal.getTime();
     }
 
     public LiveData<Date> getCurrentDate(){
