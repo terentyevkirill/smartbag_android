@@ -8,13 +8,19 @@ import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"),
+        indices = {@Index(value = {"user_id"})})
 public class Activity {
 
-    @PrimaryKey
+    public static final long DEFAULT_ACTIVITY_ID = 0;
+
+    @PrimaryKey(autoGenerate = true)
     private long id;
     @ColumnInfo(name = "start_time")
     @TypeConverters({Converters.class})
@@ -26,14 +32,6 @@ public class Activity {
     private int steps;
     @ColumnInfo(name = "user_id")
     private long userId;
-
-    public Activity(long id, Date startTime, Date endTime, int steps, User user) {
-        this.id = id;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.steps = steps;
-        this.userId = user.getId();
-    }
 
     public Activity(long id, Date startTime, Date endTime, int steps, long userId) {
         this.id = id;

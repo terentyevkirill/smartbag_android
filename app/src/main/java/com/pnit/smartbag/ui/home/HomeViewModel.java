@@ -15,12 +15,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class HomeViewModel extends ViewModel {
@@ -47,13 +43,13 @@ public class HomeViewModel extends ViewModel {
         calorieCalculator = new CalorieCalculator(150, 80);
 
         liveDataSteps = new MutableLiveData<>();
-        liveDataSteps.setValue(String.valueOf(currentSteps));
+        liveDataSteps.setValue(String.valueOf(getCurrentSteps()));
 
         liveDataDate = new MutableLiveData<>();
         liveDataDate.setValue(new Date());
 
         if (MainActivity.getLoggedInUser() == null){
-            user = userRepo.findUserWithoutRegistration();
+//            user = userRepo.findUserWithoutRegistration();
         } else {
             //ToDO: Get User from Remote Database
         }
@@ -82,6 +78,10 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<String> getSteps() {
         return liveDataSteps;
+    }
+
+    public LiveData<Integer> getStepsFromBt() {
+        return activityRepo.getTodaySteps();
     }
 
     public int getGoal(){

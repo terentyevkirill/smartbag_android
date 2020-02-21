@@ -6,15 +6,14 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class User {
+    public static final long DEFAULT_USER_ID = 1;
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
     @ColumnInfo(name = "user_name")
     private String username;
     @ColumnInfo(name = "password")
     private String password;
-    @ColumnInfo(name = "is_registered")
-    private boolean isRegistered;
     @ColumnInfo(name = "daily_goal")
     private int dailyGoal;
     @ColumnInfo(name = "weight")
@@ -22,11 +21,10 @@ public class User {
     @ColumnInfo(name = "height")
     private float height;
 
-    public User(long id, String username, String password, boolean isRegistered, int dailyGoal, float weight, float height) {
+    public User(long id, String username, String password, int dailyGoal, float weight, float height) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.isRegistered = isRegistered;
         this.dailyGoal = dailyGoal;
         this.weight = weight;
         this.height = height;
@@ -54,14 +52,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isRegistered() {
-        return isRegistered;
-    }
-
-    public void setRegistered(boolean registered) {
-        isRegistered = registered;
     }
 
     public int getDailyGoal() {

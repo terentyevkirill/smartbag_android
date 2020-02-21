@@ -22,7 +22,10 @@ public interface UserDAO {
     List<User> loadUserWithoutRegistration();
 
     @Query("SELECT * FROM user WHERE user_name LIKE :username")
-    List<User> findByName(String username);
+    User findByName(String username);
+
+    @Insert
+    void insert(User user);
 
     @Insert
     void insertAll(User... users);

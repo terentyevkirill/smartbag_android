@@ -61,6 +61,17 @@ public class HomeFragment extends Fragment {
             caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
         });
 
+        homeViewModel.getStepsFromBt().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                goalProgressBar.setProgress(s);
+                stepsTextView.setText(String.valueOf(s));
+                caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
+            } else {
+                goalProgressBar.setProgress(0);
+                stepsTextView.setText("0");
+                caloriesTextView.setText("0");
+            }
+        });
         demoButton.setOnClickListener(v -> homeViewModel.setSteps(100));
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s -> {
             weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));

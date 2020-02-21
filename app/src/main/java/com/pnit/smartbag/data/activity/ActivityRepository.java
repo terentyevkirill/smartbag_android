@@ -3,10 +3,15 @@ package com.pnit.smartbag.data.activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.pnit.smartbag.Converters;
 import com.pnit.smartbag.data.AppDatabase;
 import com.pnit.smartbag.data.activity.model.Activity;
+import com.pnit.smartbag.utils.DateUtil;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -25,23 +30,15 @@ public class ActivityRepository {
     }
 
     public void insertActivity(Activity newActivity){
-        InsertAsyncTask task = new InsertAsyncTask(activityDAO);
-        task.execute(newActivity);
+        activityDAO.insert(newActivity);
     }
 
-    public void deleteActivity(String name) {
-        DeleteAsyncTask task = new DeleteAsyncTask(activityDAO);
-        task.execute(name);
+    public void deleteActivity(long id) {
+        activityDAO.delete(id);
     }
 
-    public void findActivity(String name) {
-        QueryAsyncTask task = new QueryAsyncTask(activityDAO);
-        task.delegate = this;
-        task.execute(name);
-    }
-
-    private void asyncFinished(List<Activity> results){
-        searchResults.setValue(results);
+    public Activity getActivityById(long id) {
+        return activityDAO.findById(id);
     }
 
     public LiveData<List<Activity>> getAllUsers() {
@@ -52,52 +49,7 @@ public class ActivityRepository {
         return searchResults;
     }
 
-
-    private static class QueryAsyncTask extends AsyncTask<String, Void, List<Activity>> {
-        private ActivityDAO asyncTaskDao;
-        private ActivityRepository delegate = null;
-        QueryAsyncTask(ActivityDAO dao){
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected List<Activity> doInBackground(final String... params){
-            return asyncTaskDao.findById(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<Activity> result){
-            delegate.asyncFinished(result);
-        }
-    }
-
-    private static class InsertAsyncTask extends AsyncTask<Activity, Void, Void> {
-
-        private ActivityDAO asyncTaskDao;
-
-        InsertAsyncTask(ActivityDAO dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Activity... params) {
-            asyncTaskDao.insertAll(params[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteAsyncTask extends AsyncTask<String, Void, Void> {
-
-        private ActivityDAO asyncTaskDao;
-
-        DeleteAsyncTask(ActivityDAO dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final String... params) {
-            asyncTaskDao.delete(params[0]);
-            return null;
-        }
+    public LiveData<Integer> getTodaySteps() {
+        return activityDAO.getStepsForDay(Converters.dateToTimestamp(DateUtil.removeTime(new Date())));
     }
 }

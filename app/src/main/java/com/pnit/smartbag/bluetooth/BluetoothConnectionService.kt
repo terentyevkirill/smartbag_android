@@ -15,6 +15,14 @@ import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.pnit.smartbag.R
 import com.pnit.smartbag.data.activity.ActivityRepository
+import com.pnit.smartbag.data.activity.model.Activity
+import com.pnit.smartbag.data.user.model.User
+import com.pnit.smartbag.utils.DateUtil
+import java.sql.Timestamp
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
+import java.util.*
 
 
 class BluetoothConnectionService : Service() {
@@ -33,35 +41,24 @@ class BluetoothConnectionService : Service() {
         var isDeviceConnected = false
             private set
     }
-    private val repository = ActivityRepository(applicationContext)
 
-    private val listeners = arrayListOf<DataListener>()
+    private var repository: ActivityRepository? = null
 
-    fun registerForUpdates(listener: DataListener) {
-        listeners.add(listener)
-    }
-
-    fun unregisterListeners() {
-        listeners.clear()
-    }
-
-    private fun broadcastData(data: String) {
-        listeners.forEach {
-            it.onData(data)
-        }
-    }
-
-    override fun onBind(intent: Intent?): IBinder? = BluetoothConnectionBinder()
-
-    inner class BluetoothConnectionBinder : Binder() {
-        fun getService(): BluetoothConnectionService = this@BluetoothConnectionService
-    }
     // Broadcast steps?:
     private val dataListener = object : DataListener {
         override fun onData(data: String) {
-//            broadcastCurrentCubeFace(f    ace)
+            v("BTConnectionService", "onData: ${data.trim().toInt()}")
+            try {
+                repository?.insertActivity(Activity(
+                        Activity.DEFAULT_ACTIVITY_ID,
+                        DateUtil.removeTime(Date()),
+                        Date(),
+                        data.trim().toInt(),
+                        User.DEFAULT_USER_ID))
+            } catch (e: NumberFormatException) {
+                v("BTConnectionService", "Received data cannot be parsed!")
+            }
 
-            v("BTConnectionService", "onData: $data")
         }
     }
 
@@ -83,8 +80,8 @@ class BluetoothConnectionService : Service() {
     private val bluetoothManager = BluetoothManager(dataListener, connectionStateListener)
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        return super.onStartCommand(intent, flags, startId)
-        return START_STICKY
+        repository = ActivityRepository(applicationContext)
+        return super.onStartCommand(intent, flags, startId);
     }
 
     override fun onCreate() {
@@ -99,6 +96,8 @@ class BluetoothConnectionService : Service() {
             startForeground(FOREGROUND_ID, createNotification())
         }
     }
+
+    override fun onBind(intent: Intent?): IBinder? = null
 
 
     override fun onDestroy() {
@@ -122,16 +121,15 @@ class BluetoothConnectionService : Service() {
 //    }
 
 
-
     private fun createNotification(): Notification {
         val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME)
         } else NOTIFICATION_CHANNEL_ID
 
         return NotificationCompat.Builder(this, channelId)
-            .setContentTitle(getString(R.string.connection_notification_title))
-            .setSmallIcon(R.drawable.ic_bluetooth_black_24dp)
-            .build()
+                .setContentTitle(getString(R.string.connection_notification_title))
+                .setSmallIcon(R.drawable.ic_bluetooth_black_24dp)
+                .build()
 
     }
 
@@ -139,9 +137,9 @@ class BluetoothConnectionService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(id: String, channelName: String): String {
         val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationChannel =
-            NotificationChannel(id, channelName, NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel(id, channelName, NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         notificationChannel.setSound(null, null)
         notificationChannel.enableVibration(false)

@@ -1,6 +1,8 @@
 package com.pnit.smartbag.bluetooth
 
 import android.bluetooth.*
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.content.Context
 import android.util.Log.v
 
