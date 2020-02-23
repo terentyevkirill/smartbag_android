@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.data.activity.ActivityRepository;
+import com.pnit.smartbag.data.activity.model.Activity;
 import com.pnit.smartbag.data.calories.CalorieCalculator;
 import com.pnit.smartbag.data.user.UserRepository;
 import com.pnit.smartbag.data.user.model.User;
+import com.pnit.smartbag.utils.DateUtil;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -28,8 +30,8 @@ public class HomeViewModel extends ViewModel {
     //Access to Calorie Calculator once initialized with height and weight of user
     private CalorieCalculator calorieCalculator;
 
-    private MutableLiveData<String> liveDataSteps; //Live Data for number of steps
-    private int currentSteps = 0; //Variable for representing steps as int transferred via bluetooth
+    //private MutableLiveData<String> liveDataSteps; //Live Data for number of steps
+    //private int currentSteps = 0; //Variable for representing steps as int transferred via bluetooth
     private MutableLiveData<Date> liveDataDate;
     private Date currentDate = new Date();
 
@@ -42,8 +44,8 @@ public class HomeViewModel extends ViewModel {
         userRepo = new UserRepository(context);
         calorieCalculator = new CalorieCalculator(150, 80);
 
-        liveDataSteps = new MutableLiveData<>();
-        liveDataSteps.setValue(String.valueOf(getCurrentSteps()));
+        //liveDataSteps = new MutableLiveData<>();
+        //liveDataSteps.setValue(String.valueOf(getCurrentSteps()));
 
         liveDataDate = new MutableLiveData<>();
         liveDataDate.setValue(new Date());
@@ -76,12 +78,8 @@ public class HomeViewModel extends ViewModel {
         return liveDataDate;
     }
 
-    public LiveData<String> getSteps() {
-        return liveDataSteps;
-    }
-
     public LiveData<Integer> getStepsFromBt() {
-        return activityRepo.getTodaySteps();
+        return activityRepo.getStepsOfSpecificDay(liveDataDate.getValue());
     }
 
     public int getGoal(){
@@ -96,19 +94,23 @@ public class HomeViewModel extends ViewModel {
 
     //using bluetooth and amount of steps
     public void setSteps(int steps){
-        currentSteps += steps;
-        liveDataSteps.setValue(String.valueOf(currentSteps));
+        /*currentSteps += steps;
+        liveDataSteps.setValue(String.valueOf(currentSteps));*/
+        /*User user = new User(User.DEFAULT_USER_ID, "", "", 12500, 60, 170);
+        userRepo.insertUser(user);*/
+        Activity activity = new Activity(Activity.DEFAULT_ACTIVITY_ID, DateUtil.removeTime(currentDate), DateUtil.removeTime(currentDate), 100, User.DEFAULT_USER_ID);
+        activityRepo.insertActivity(activity);
     }
 
     public String getFormattedData(String pattern) {
         return new SimpleDateFormat(pattern, Locale.US).format(currentDate);
     }
 
-    public int getCurrentSteps(){
+   /* public int getCurrentSteps(){
         return currentSteps;
-    }
+    }*/
 
-    public int getCalories(){
+    public int getCalories(int currentSteps){
        return calorieCalculator.calculateCalories(currentSteps);
     }
 

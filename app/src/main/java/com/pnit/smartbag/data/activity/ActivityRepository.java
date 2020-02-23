@@ -52,4 +52,8 @@ public class ActivityRepository {
     public LiveData<Integer> getTodaySteps() {
         return activityDAO.getStepsForDay(Converters.dateToTimestamp(DateUtil.removeTime(new Date())));
     }
+
+    public LiveData<Integer> getStepsOfSpecificDay(Date d){
+        return activityDAO.getStepsForDay(Converters.dateToTimestamp(DateUtil.removeTime(d)));
+    }
 }

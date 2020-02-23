@@ -55,17 +55,17 @@ public class HomeFragment extends Fragment {
         goalProgressBar.setMax(homeViewModel.getGoal());
         dailyStepsTextView.setText(String.valueOf(homeViewModel.getGoal()));
 
-        homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
+        /*homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
             goalProgressBar.setProgress(homeViewModel.getCurrentSteps());
-            stepsTextView.setText(s);
+            stepsTextView.setText(String.valueOf(s));
             caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
-        });
+        });*/
 
         homeViewModel.getStepsFromBt().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
                 goalProgressBar.setProgress(s);
                 stepsTextView.setText(String.valueOf(s));
-                caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
+                caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(s)));
             } else {
                 goalProgressBar.setProgress(0);
                 stepsTextView.setText("0");
@@ -80,6 +80,17 @@ public class HomeFragment extends Fragment {
                 upButton.setVisibility(View.INVISIBLE);
             } else
                 upButton.setVisibility(View.VISIBLE);
+            homeViewModel.getStepsFromBt().observe(getViewLifecycleOwner(), d -> {
+                if (d != null) {
+                    goalProgressBar.setProgress(d);
+                    stepsTextView.setText(String.valueOf(d));
+                    caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(d)));
+                } else {
+                    goalProgressBar.setProgress(0);
+                    stepsTextView.setText("0");
+                    caloriesTextView.setText("0");
+                }
+            });
         });
 
         upButton.setOnClickListener(v -> homeViewModel.setDatePlus1());
