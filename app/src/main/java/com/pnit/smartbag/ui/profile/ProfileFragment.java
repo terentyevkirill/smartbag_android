@@ -1,5 +1,6 @@
 package com.pnit.smartbag.ui.profile;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.pnit.smartbag.MainActivity;
 import com.pnit.smartbag.R;
 import com.pnit.smartbag.R2;
+
+import java.util.ArrayList;
 
 import static com.pnit.smartbag.MainActivity.getLoggedInUser;
 
@@ -50,6 +60,30 @@ public class ProfileFragment extends Fragment {
 
         calcButton = root.findViewById(R.id.calc);
         calcButton.setOnClickListener(v -> bmi.setText(profileViewModel.getBMIcalc(Float.valueOf(height.getText().toString()), Float.valueOf(weight.getText().toString()))));
+
+
+
+
+        BarChart barChart = root.findViewById(R.id.barchart);
+        barChart.setDescription(null);
+
+        BarData data = new BarData(profileViewModel.labels(),profileViewModel.barDataSet(profileViewModel.entities()));
+        barChart.setData(data);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        int limit = 10000;
+        LimitLine limitLine = new LimitLine(limit);
+        limitLine.setLineColor(Color.GREEN);
+
+        YAxis yAxis = barChart.getAxisRight();
+        yAxis.addLimitLine(limitLine);
+
+
+
+
+
 
         return root;
     }
