@@ -95,8 +95,8 @@ public class HomeViewModel extends ViewModel {
     //using bluetooth and amount of steps
     public void setSteps(int steps){
         /*currentSteps += steps;
-        liveDataSteps.setValue(String.valueOf(currentSteps));*/
-        /*User user = new User(User.DEFAULT_USER_ID, "", "", 12500, 60, 170);
+        liveDataSteps.setValue(String.valueOf(currentSteps));
+        User user = new User(User.DEFAULT_USER_ID, "", "", 12500, 60, 170);
         userRepo.insertUser(user);*/
         Activity activity = new Activity(Activity.DEFAULT_ACTIVITY_ID, DateUtil.removeTime(currentDate), DateUtil.removeTime(currentDate), 100, User.DEFAULT_USER_ID);
         activityRepo.insertActivity(activity);
