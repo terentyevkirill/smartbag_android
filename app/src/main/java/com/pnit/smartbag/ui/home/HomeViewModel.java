@@ -51,7 +51,7 @@ public class HomeViewModel extends ViewModel {
         liveDataDate.setValue(new Date());
 
         if (MainActivity.getLoggedInUser() == null){
-//            user = userRepo.findUserWithoutRegistration();
+            user = userRepo.findUserWithoutRegistration();
         } else {
             //ToDO: Get User from Remote Database
         }
