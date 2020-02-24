@@ -11,14 +11,10 @@ import android.widget.TextView;
 
 import com.pnit.smartbag.R;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindDimen;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -61,17 +57,17 @@ public class HomeFragment extends Fragment {
             caloriesTextView.setText(String.valueOf(homeViewModel.getCalories()));
         });*/
 
-        homeViewModel.getStepsFromBt().observe(getViewLifecycleOwner(), s -> {
-            if (s != null) {
-                goalProgressBar.setProgress(s);
-                stepsTextView.setText(String.valueOf(s));
-                caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(s)));
-            } else {
-                goalProgressBar.setProgress(0);
-                stepsTextView.setText("0");
-                caloriesTextView.setText("0");
-            }
-        });
+//        homeViewModel.getSteps().observe(getViewLifecycleOwner(), s -> {
+//            if (s != null) {
+//                goalProgressBar.setProgress(s);
+//                stepsTextView.setText(String.valueOf(s));
+//                caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(s)));
+//            } else {
+//                goalProgressBar.setProgress(0);
+//                stepsTextView.setText("0");
+//                caloriesTextView.setText("0");
+//            }
+//        });
         demoButton.setOnClickListener(v -> homeViewModel.setSteps(100));
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s -> {
             weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
@@ -80,17 +76,17 @@ public class HomeFragment extends Fragment {
                 upButton.setVisibility(View.INVISIBLE);
             } else
                 upButton.setVisibility(View.VISIBLE);
-            homeViewModel.getStepsFromBt().observe(getViewLifecycleOwner(), d -> {
-                if (d != null) {
-                    goalProgressBar.setProgress(d);
-                    stepsTextView.setText(String.valueOf(d));
-                    caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(d)));
-                } else {
-                    goalProgressBar.setProgress(0);
-                    stepsTextView.setText("0");
-                    caloriesTextView.setText("0");
-                }
-            });
+                homeViewModel.getSteps().observe(getViewLifecycleOwner(), d -> {
+                    if (d != null) {
+                        goalProgressBar.setProgress(d);
+                        stepsTextView.setText(String.valueOf(d));
+                        caloriesTextView.setText(String.valueOf(homeViewModel.getCalories(d)));
+                    } else {
+                        goalProgressBar.setProgress(0);
+                        stepsTextView.setText("0");
+                        caloriesTextView.setText("0");
+                    }
+                });
         });
 
         upButton.setOnClickListener(v -> homeViewModel.setDatePlus1());

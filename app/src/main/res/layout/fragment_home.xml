@@ -61,7 +61,7 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,49 +70,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/weekday_tv"
+            app:layout_constraintTop_toTopOf="@+id/weekday_tv">
 
             <Button
                 android:id="@+id/down_btn"
-                android:layout_width="70px"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
-                android:layout_marginRight="50px"
-                android:layout_weight="1"
-                android:background="@drawable/ic_arrow_left" />
+                android:background="@drawable/ic_arrow_left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/weekday_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="48dp"
+                tools:layout_conversion_absoluteWidth="117dp" />
 
             <TextView
                 android:id="@+id/weekday_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="72dp"
-                tools:layout_editor_absoluteY="271dp"
+                app:layout_constraintBottom_toBottomOf="@+id/down_btn"
+                app:layout_constraintEnd_toStartOf="@+id/date_tv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/down_btn"
+                app:layout_constraintTop_toTopOf="@+id/down_btn"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="69dp"
                 tools:text="Friday" />
 
             <TextView
                 android:id="@+id/date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/up_btn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/weekday_tv"
+                app:layout_constraintTop_toTopOf="@+id/up_btn"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="107dp"
                 tools:text="February, 13" />
 
             <Button
                 android:id="@+id/up_btn"
-                android:layout_width="70px"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
-                android:layout_marginRight="50px"
-                android:layout_weight="1"
-                android:background="@drawable/ic_arrow_right" />
+                android:background="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/date_tv"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="48dp"
+                tools:layout_conversion_absoluteWidth="118dp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <ScrollView
@@ -169,19 +188,18 @@
                         android:id="@+id/calories_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20px"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:textAlignment="textEnd"
                         tools:text="500" />
 
                     <TextView
                         android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20px"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/title_kcal" />
+                        android:text="@string/title_kcal"
+                        android:textAlignment="textStart" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -194,19 +212,18 @@
                         android:id="@+id/daily_steps_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20px"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:textAlignment="textEnd"
                         tools:text="5000" />
 
                     <TextView
                         android:id="@+id/textView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20px"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/title_steps" />
+                        android:text="@string/title_steps"
+                        android:textAlignment="textStart" />
                 </LinearLayout>
 
             </TableRow>

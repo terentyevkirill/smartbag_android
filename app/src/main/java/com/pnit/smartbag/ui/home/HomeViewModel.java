@@ -78,7 +78,7 @@ public class HomeViewModel extends ViewModel {
         return liveDataDate;
     }
 
-    public LiveData<Integer> getStepsFromBt() {
+    public LiveData<Integer> getSteps() {
         return activityRepo.getStepsOfSpecificDay(liveDataDate.getValue());
     }
 
@@ -98,7 +98,7 @@ public class HomeViewModel extends ViewModel {
         liveDataSteps.setValue(String.valueOf(currentSteps));
         User user = new User(User.DEFAULT_USER_ID, "", "", 12500, 60, 170);
         userRepo.insertUser(user);*/
-        Activity activity = new Activity(Activity.DEFAULT_ACTIVITY_ID, DateUtil.removeTime(currentDate), DateUtil.removeTime(currentDate), 100, User.DEFAULT_USER_ID);
+        Activity activity = new Activity(Activity.DEFAULT_ACTIVITY_ID, DateUtil.removeTime(currentDate), new Date(), 100, User.DEFAULT_USER_ID);
         activityRepo.insertActivity(activity);
     }
 
@@ -106,9 +106,6 @@ public class HomeViewModel extends ViewModel {
         return new SimpleDateFormat(pattern, Locale.US).format(currentDate);
     }
 
-   /* public int getCurrentSteps(){
-        return currentSteps;
-    }*/
 
     public int getCalories(int currentSteps){
        return calorieCalculator.calculateCalories(currentSteps);

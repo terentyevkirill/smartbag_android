@@ -67,9 +67,6 @@ public class ProfileFragment extends Fragment {
         calcButton = root.findViewById(R.id.calc);
         calcButton.setOnClickListener(v -> bmi.setText(profileViewModel.getBMIcalc(Float.valueOf(height.getText().toString()), Float.valueOf(weight.getText().toString()))));
 */
-
-
-
         BarChart barChart = root.findViewById(R.id.barchart);
         barChart.setDescription(null);
 
@@ -77,7 +74,7 @@ public class ProfileFragment extends Fragment {
         barChart.setData(data);
 
         Legend legend = barChart.getLegend();
-        legend.setEnabled(false);
+//        legend.setEnabled(false);
 
         barChart.getAxisLeft().setAxisMinValue(0);
         barChart.getAxisRight().setAxisMinValue(0);
@@ -87,6 +84,9 @@ public class ProfileFragment extends Fragment {
 
         LimitLine limitLine = new LimitLine(profileViewModel.getUserGoal());
         limitLine.setLineColor(Color.GREEN);
+        limitLine.setTextSize(14);
+        limitLine.setLabel("Goal");
+        limitLine.setTextColor(Color.GREEN);
 
         YAxis yAxis = barChart.getAxisRight();
         yAxis.addLimitLine(limitLine);
@@ -94,10 +94,7 @@ public class ProfileFragment extends Fragment {
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-                int day = e.getXIndex() + 1;
-                int month = 2;
-                int year = 2020;
-                //TODO: Go to Home Fragment and show specific day
+                // TODO: show calories for chosen column
             }
 
             @Override

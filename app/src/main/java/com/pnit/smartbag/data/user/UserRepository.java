@@ -37,7 +37,7 @@ public class UserRepository {
     }
 
     public User findUserWithoutRegistration(){
-        return userDAO.loadUserWithoutRegistration().get(0);
+        return userDAO.loadUserWithoutRegistration();
     }
 
     public LiveData<List<User>> getAllUsers() {

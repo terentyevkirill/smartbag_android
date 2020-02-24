@@ -19,7 +19,7 @@ public interface UserDAO {
     List<User> loadAllByIds(int[] userIds);
 
     @Query("SELECT * FROM user WHERE id IS 1")
-    List<User> loadUserWithoutRegistration();
+    User loadUserWithoutRegistration();
 
     @Query("SELECT * FROM user WHERE user_name LIKE :username")
     User findByName(String username);

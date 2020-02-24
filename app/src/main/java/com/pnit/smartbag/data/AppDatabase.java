@@ -55,7 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             AppDatabase db = getInstance(context);
-            db.userDao().insert(new User(User.DEFAULT_USER_ID, "", "", 0, 0F, 0F));
+            db.userDao().insert(new User(User.DEFAULT_USER_ID, "", "", User.DEFAULT_DAILY_GOAL, 0F, 0F));
             Log.v("DATABASE", "Pre-populated!");
         });
 

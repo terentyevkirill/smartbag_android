@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class User {
     public static final long DEFAULT_USER_ID = 1;
+    public static final int DEFAULT_DAILY_GOAL = 10000;
 
     @PrimaryKey(autoGenerate = true)
     private long id;
