@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.profile;
+package com.pnit.smartbag.ui.statistics;
 
 
 import android.content.Context;
@@ -11,13 +11,13 @@ import com.pnit.smartbag.data.activity.ActivityRepository;
 import com.pnit.smartbag.data.user.UserRepository;
 import com.pnit.smartbag.data.user.model.User;
 
-public class ProfileViewModel extends ViewModel {
+public class StatisticsViewModel extends ViewModel {
 
     private ActivityRepository activityRepository;
     private User user;
     private Context context;
 
-    private ProfileViewModel(Context context) {
+    public StatisticsViewModel(Context context) {
         activityRepository = new ActivityRepository(context);
         UserRepository userRepository = new UserRepository(context);
         user = userRepository.findUserWithoutRegistration();
@@ -36,7 +36,7 @@ public class ProfileViewModel extends ViewModel {
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return ((T) new ProfileViewModel(ctxt));
+            return ((T) new StatisticsViewModel(ctxt));
         }
     }
 }

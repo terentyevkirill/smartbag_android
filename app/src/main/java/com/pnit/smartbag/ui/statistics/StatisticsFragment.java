@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.profile;
+package com.pnit.smartbag.ui.statistics;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pnit.smartbag.R;
+
+public class StatisticsFragment extends Fragment {
 import com.pnit.smartbag.ui.profile.daily.DailyFragment;
 import com.pnit.smartbag.ui.profile.monthly.MonthlyFragment;
 import com.pnit.smartbag.ui.profile.weekly.WeeklyFragment;
@@ -23,9 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ProfileFragment extends Fragment {
-
-    private ProfileViewModel profileViewModel;
+    private StatisticsViewModel statisticsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
