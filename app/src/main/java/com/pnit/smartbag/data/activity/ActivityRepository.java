@@ -60,4 +60,8 @@ public class ActivityRepository {
     public int getStepsOfDay(Date d){
         return activityDAO.getStepsForDayInt(Converters.dateToTimestamp(DateUtil.removeTime(d)));
     }
+
+    public List<Activity> findByDate(Date d){
+        return activityDAO.findByDate(DateUtil.removeTime(d));
+    }
 }

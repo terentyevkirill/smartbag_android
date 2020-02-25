@@ -32,6 +32,10 @@ public class UserRepository {
         userDAO.delete(name);
     }
 
+    public void updateUser(User user){
+        userDAO.update(user);
+    }
+
     public User findUser(String name) {
         return userDAO.findByName(name);
     }

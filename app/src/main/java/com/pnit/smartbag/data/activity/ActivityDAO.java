@@ -22,7 +22,7 @@ public interface ActivityDAO {
     @Query("SELECT SUM(steps) from Activity WHERE start_time = :date")
     LiveData<Integer> getStepsForDay(long date);
 
-    @Query("SELECT SUM(steps) from Activity WHERE start_time = :date")
+    @Query("SELECT SUM(steps) from Activity WHERE start_time = :date ")
     int getStepsForDayInt(long date);
 
     @Query("SELECT * FROM activity WHERE id in (:userIds)")

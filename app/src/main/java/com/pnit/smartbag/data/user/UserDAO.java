@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface UserDAO {
@@ -32,4 +33,7 @@ public interface UserDAO {
 
     @Query("DELETE FROM user WHERE user_name = :name")
     void delete(String name);
+
+    @Update
+    void update(User user);
 }
