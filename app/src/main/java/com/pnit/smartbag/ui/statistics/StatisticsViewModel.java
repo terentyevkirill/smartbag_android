@@ -1,6 +1,5 @@
 package com.pnit.smartbag.ui.statistics;
 
-
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,6 @@ public class StatisticsViewModel extends ViewModel {
         user = userRepository.findUserWithoutRegistration();
         this.context = context;
     }
-
 
 
     public static class Factory implements ViewModelProvider.Factory {

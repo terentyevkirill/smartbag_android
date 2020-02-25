@@ -5,6 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pnit.smartbag.ui.statistics.daily.DailyFragment;
+import com.pnit.smartbag.ui.statistics.monthly.MonthlyFragment;
+import com.pnit.smartbag.ui.statistics.weekly.WeeklyFragment;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,21 +24,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.pnit.smartbag.R;
 
 public class StatisticsFragment extends Fragment {
-import com.pnit.smartbag.ui.profile.daily.DailyFragment;
-import com.pnit.smartbag.ui.profile.monthly.MonthlyFragment;
-import com.pnit.smartbag.ui.profile.weekly.WeeklyFragment;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
     private StatisticsViewModel statisticsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel = ViewModelProviders.of(this, new ProfileViewModel.Factory(Objects.requireNonNull(getContext()))).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        statisticsViewModel = ViewModelProviders.of(this, new StatisticsViewModel.Factory(Objects.requireNonNull(getContext()))).get(StatisticsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         TabLayout tabLayout = root.findViewById(R.id.tabs);
 

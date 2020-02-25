@@ -1,16 +1,12 @@
-package com.pnit.smartbag.ui.profile.monthly;
+package com.pnit.smartbag.ui.statistics.monthly;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
 import com.pnit.smartbag.R;
 import com.pnit.smartbag.utils.BarChartUtils;
 
@@ -25,7 +21,7 @@ public class MonthlyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         monthlyViewModel = ViewModelProviders.of(this, new MonthlyViewModel.Factory(getContext())).get(MonthlyViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile_monthly, container, false);
+        View root = inflater.inflate(R.layout.fragment_statistics_monthly, container, false);
 
         //setup BarChart weekly
         BarChart barChart = root.findViewById(R.id.barchart);

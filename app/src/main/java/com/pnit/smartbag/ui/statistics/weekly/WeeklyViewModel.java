@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.profile.weekly;
+package com.pnit.smartbag.ui.statistics.weekly;
 
 import android.content.Context;
 
@@ -24,25 +24,25 @@ public class WeeklyViewModel extends ViewModel {
     private ActivityRepository activityRepository;
     private User user;
 
-    private WeeklyViewModel(Context context){
+    private WeeklyViewModel(Context context) {
         activityRepository = new ActivityRepository(context);
         UserRepository userRepository = new UserRepository(context);
         user = userRepository.findUserWithoutRegistration();
     }
 
-    BarData getBarData(){
+    BarData getBarData() {
         ArrayList<BarEntry> entries = getBarEntries();
         ArrayList<String> labels = getBarLabels();
         return new BarData(labels, barDataSet(entries));
     }
 
-    private ArrayList<BarEntry> getBarEntries(){
+    private ArrayList<BarEntry> getBarEntries() {
         ArrayList<BarEntry> entries = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(1900 + new Date().getYear(), new Date().getMonth(), new Date().getDate());
-        calendar.add(Calendar.DATE, - calendar.getFirstDayOfWeek());
+        calendar.add(Calendar.DATE, -calendar.getFirstDayOfWeek());
 
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             entries.add(new BarEntry(activityRepository.getStepsOfDay(calendar.getTime()), i));
             calendar.add(Calendar.DATE, 1);
         }
@@ -65,18 +65,19 @@ public class WeeklyViewModel extends ViewModel {
         private MyBarDataSet(ArrayList<BarEntry> entries, String label) {
             super(entries, label);
         }
+
         @Override
         public int getColor(int index) {
             if (getEntryForXIndex(index).getVal() > user.getDailyGoal())
                 return mColors.get(0);
-            else if(getEntryForXIndex(index).getVal() > (user.getDailyGoal()/2))
+            else if (getEntryForXIndex(index).getVal() > (user.getDailyGoal() / 2))
                 return mColors.get(1);
             else
                 return mColors.get(2);
         }
     }
 
-    int getUserGoal(){
+    int getUserGoal() {
         return user.getDailyGoal();
     }
 

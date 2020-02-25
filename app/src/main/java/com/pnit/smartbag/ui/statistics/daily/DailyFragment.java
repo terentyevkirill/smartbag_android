@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.profile.daily;
+package com.pnit.smartbag.ui.statistics.daily;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.pnit.smartbag.R;
 import com.pnit.smartbag.utils.BarChartUtils;
@@ -21,7 +22,7 @@ public class DailyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dailyViewModel = ViewModelProviders.of(this, new DailyViewModel.Factory(getContext())).get(DailyViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile_daily, container, false);
+        View root = inflater.inflate(R.layout.fragment_statistics_daily, container, false);
 
         //setup BarChart weekly
         BarChart barChart = root.findViewById(R.id.barchart);
@@ -33,7 +34,7 @@ public class DailyFragment extends Fragment {
         barChart.getAxisLeft().setAxisMinValue(0);
         barChart.getAxisRight().setAxisMinValue(0);
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        barChart.getAxisRight().addLimitLine(BarChartUtils.getLimitLine(dailyViewModel.getUserGoal()/8, "Goal"));
+        barChart.getAxisRight().addLimitLine(BarChartUtils.getLimitLine(dailyViewModel.getUserGoal() / 8, "Goal"));
 
         return root;
     }

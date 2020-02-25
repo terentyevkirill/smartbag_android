@@ -1,4 +1,4 @@
-package com.pnit.smartbag.ui.profile.weekly;
+package com.pnit.smartbag.ui.statistics.weekly;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +21,7 @@ public class WeeklyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         weeklyViewModel = ViewModelProviders.of(this, new WeeklyViewModel.Factory(getContext())).get(WeeklyViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile_weekly, container, false);
+        View root = inflater.inflate(R.layout.fragment_statistics_weekly, container, false);
 
         //setup BarChart weekly
         BarChart barChart = root.findViewById(R.id.barchart);
