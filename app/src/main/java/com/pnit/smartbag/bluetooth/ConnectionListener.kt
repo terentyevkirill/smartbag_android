@@ -1,4 +1,4 @@
-package ua.onpu.bluetooth
+package com.pnit.smartbag.bluetooth
 
 interface ConnectionListener {
     fun onConnected()

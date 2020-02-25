@@ -25,33 +25,23 @@ public class UserRepository {
     }
 
     public void insertUser(User newUser) {
-        InsertAsyncTask task = new InsertAsyncTask(userDAO);
-        task.execute(newUser);
+        userDAO.insert(newUser);
     }
 
     public void deleteUser(String name) {
-        DeleteAsyncTask task = new DeleteAsyncTask(userDAO);
-        task.execute(name);
+        userDAO.delete(name);
+    }
+
+    public void updateUser(User user){
+        userDAO.update(user);
     }
 
     public User findUser(String name) {
-        QueryAsyncTask task = new QueryAsyncTask(userDAO);
-        task.delegate = this;
-        task.execute(name);
-
-        try {
-            if (task.get().size() >0)
-                return task.get().get(0);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return userDAO.findByName(name);
     }
 
-    private void asyncFinished(List<User> results){
-        searchResults.setValue(results);
+    public User findUserWithoutRegistration(){
+        return userDAO.loadUserWithoutRegistration();
     }
 
     public LiveData<List<User>> getAllUsers() {
@@ -62,51 +52,4 @@ public class UserRepository {
         return searchResults;
     }
 
-    private static class QueryAsyncTask extends AsyncTask<String, Void, List<User>>{
-        private UserDAO asyncTaskDao;
-        private UserRepository delegate = null;
-        QueryAsyncTask(UserDAO dao){
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected List<User> doInBackground(final String... params){
-            return asyncTaskDao.findByName(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<User> result){
-            delegate.asyncFinished(result);
-        }
-    }
-
-    private static class InsertAsyncTask extends AsyncTask<User, Void, Void> {
-
-        private UserDAO asyncTaskDao;
-
-        InsertAsyncTask(UserDAO dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final User... params) {
-            asyncTaskDao.insertAll(params[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteAsyncTask extends AsyncTask<String, Void, Void> {
-
-        private UserDAO asyncTaskDao;
-
-        DeleteAsyncTask(UserDAO dao) {
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final String... params) {
-            asyncTaskDao.delete(params[0]);
-            return null;
-        }
-    }
 }

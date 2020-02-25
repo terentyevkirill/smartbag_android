@@ -4,37 +4,75 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.pnit.smartbag.R;
-import com.pnit.smartbag.R2;
+import com.pnit.smartbag.ui.profile.daily.DailyFragment;
+import com.pnit.smartbag.ui.profile.monthly.MonthlyFragment;
+import com.pnit.smartbag.ui.profile.weekly.WeeklyFragment;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel profileViewModel;
 
-    Button calcButton;
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
+        profileViewModel = ViewModelProviders.of(this, new ProfileViewModel.Factory(Objects.requireNonNull(getContext()))).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        EditText bmi = root.findViewById(R.id.bmi);
-        EditText hight = root.findViewById(R.id.number_hight);
-        EditText weight = root.findViewById(R.id.number_weight);
-        calcButton = root.findViewById(R.id.calc);
-        calcButton.setOnClickListener(v -> bmi.setText(profileViewModel.getBMIcalc(Float.valueOf(hight.getText().toString()), Float.valueOf(weight.getText().toString()))));
+
+        TabLayout tabLayout = root.findViewById(R.id.tabs);
+
+        int tabCount = 3;
+        for (int i = 0; i < tabCount; i++)
+            tabLayout.addTab(tabLayout.newTab());
+
+        final ViewPager viewPager = root.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new PagerAdapter(getFragmentManager(), tabLayout.getTabCount()));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         return root;
+    }
+
+    public class PagerAdapter extends FragmentStatePagerAdapter {
+        int mNumOfTabs;
+        private String[] tabTitles = new String[]{"Daily", "Weekly", "Monthly"};
+        private Fragment[] tabFragment = new Fragment[]{new DailyFragment(), new WeeklyFragment(), new MonthlyFragment()};
+
+        PagerAdapter(FragmentManager fm, int NumOfTabs) {
+            super(fm);
+            this.mNumOfTabs = NumOfTabs;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+
+
+        @NotNull
+        @Override
+        public Fragment getItem(int position) {
+            return tabFragment[position];
+        }
+
+        @Override
+        public int getCount() {
+            return mNumOfTabs;
+        }
     }
 }

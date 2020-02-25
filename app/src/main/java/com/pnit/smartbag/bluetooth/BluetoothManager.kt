@@ -1,16 +1,17 @@
 package com.pnit.smartbag.bluetooth
 
 import android.bluetooth.*
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.content.Context
 import android.util.Log.v
-import ua.onpu.bluetooth.ConnectionListener
-import ua.onpu.bluetooth.DataListener
 
 class BluetoothManager(var dataListener: DataListener? = null,
                        var connectionListener: ConnectionListener? = null) {
 
     companion object {
-        const val PROTOTYPE_ADDRESS = "90:E2:02:BE:E3:0E"
+        // SmartBag v1
+        const val PROTOTYPE_ADDRESS = "78:DB:2F:13:EC:B4"
 
         private const val TAG = "BluetoothManager"
     }

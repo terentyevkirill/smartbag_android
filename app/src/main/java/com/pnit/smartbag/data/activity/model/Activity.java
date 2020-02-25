@@ -3,36 +3,40 @@ package com.pnit.smartbag.data.activity.model;
 import com.pnit.smartbag.Converters;
 import com.pnit.smartbag.data.user.model.User;
 
+import java.sql.Time;
 import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"),
+        indices = {@Index(value = {"user_id"})})
 public class Activity {
 
-    @PrimaryKey
+    public static final long DEFAULT_ACTIVITY_ID = 0;
+
+    @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = "date")
+    @ColumnInfo(name = "start_time")
     @TypeConverters({Converters.class})
-    private Date date;
+    private Date startTime;
+    @ColumnInfo(name = "end_time")
+    @TypeConverters({Converters.class})
+    private Date endTime;
     @ColumnInfo(name = "steps")
     private int steps;
     @ColumnInfo(name = "user_id")
     private long userId;
 
-    public Activity(long id, Date date, int steps, User user) {
+    public Activity(long id, Date startTime, Date endTime, int steps, long userId) {
         this.id = id;
-        this.date = date;
-        this.steps = steps;
-        this.userId = user.getId();
-    }
-
-    public Activity(long id, Date date, int steps, long userId) {
-        this.id = id;
-        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.steps = steps;
         this.userId = userId;
     }
@@ -45,12 +49,20 @@ public class Activity {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public int getSteps() {
