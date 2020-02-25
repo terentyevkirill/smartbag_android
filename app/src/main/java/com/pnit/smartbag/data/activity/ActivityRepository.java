@@ -21,20 +21,26 @@ public class ActivityRepository {
     private MutableLiveData<List<Activity>> searchResults  = new MutableLiveData<List<Activity>>();
     private ActivityDAO activityDAO;
     private LiveData<List<Activity>> allActivities;
+    private Executor executor;
 
     public ActivityRepository(Context context){
         AppDatabase db;
         db = AppDatabase.getInstance(context);
         activityDAO = db.activityDAO();
         allActivities = activityDAO.getAllActivities();
+        executor = Executors.newSingleThreadExecutor();
     }
 
     public void insertActivity(Activity newActivity){
-        activityDAO.insert(newActivity);
+        executor.execute(() -> {
+            activityDAO.insert(newActivity);
+        });
     }
 
     public void deleteActivity(long id) {
-        activityDAO.delete(id);
+        executor.execute(() -> {
+            activityDAO.delete(id);
+        });
     }
 
     public Activity getActivityById(long id) {
