@@ -91,7 +91,10 @@ public class HomeFragment extends Fragment {
 
         upButton.setOnClickListener(v -> homeViewModel.setDatePlus1());
         downButton.setOnClickListener(v -> homeViewModel.setDateMinus1());
-
+        upButton.setOnLongClickListener(v -> {
+            homeViewModel.resetToCurrentDate();
+            return true;
+        });
 
         return root;
     }

@@ -111,6 +111,11 @@ public class HomeViewModel extends ViewModel {
        return calorieCalculator.calculateCalories(currentSteps);
     }
 
+    public void resetToCurrentDate() {
+        currentDate = new Date();
+        liveDataDate.setValue(currentDate);
+    }
+
 
     public static class Factory implements ViewModelProvider.Factory {
         private final Context ctxt;
