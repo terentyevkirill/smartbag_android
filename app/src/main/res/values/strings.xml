@@ -24,4 +24,11 @@
     <string name="permission_granted">Permission granted!</string>
     <string name="permission_denied">Permission denied!</string>
     <string name="continue_without_registration">Continue without registration</string>
+    <string name="bluetooth_not_supported">Device does not support bluetooth</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth_service">Bluetooth service</string>
+    <string name="alert_bluetooth_service">Bluetooth connection service running</string>
+    <string name="alert_message_bluetooth_service">Leave bluetooth connection service running after app is closed?</string>
+    <string name="alert_dialog_ok">Leave</string>
+    <string name="alert_dialog_cancel">Close</string>
 </resources>

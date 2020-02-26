@@ -1,30 +1,26 @@
 package com.pnit.smartbag;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pnit.smartbag.data.jwt.Jwt;
 import com.pnit.smartbag.data.login.model.LoggedInUser;
-
 import org.json.JSONObject;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.pnit.smartbag.bluetooth.BluetoothConnectionService;
-import com.pnit.smartbag.ui.home.HomeFragment;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -57,7 +53,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         checkPermissions();
-        startBluetoothService();
+
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(mReceiver, filter);
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            Snackbar snackbar = Snackbar.make(container, R.string.bluetooth_not_supported, Snackbar.LENGTH_SHORT);
+            snackbar.show();
+        } else if (!bluetoothAdapter.isEnabled()) {
+            bluetoothAdapter.enable();
+            startBluetoothService();
+        } else {
+            startBluetoothService();
+        }
     }
 
     private void startBluetoothService() {
@@ -100,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, BluetoothConnectionService.class));
+//        stopService(new Intent(this, BluetoothConnectionService.class));
+        unregisterReceiver(mReceiver);
     }
 
     public static void setLoggedInUser(LoggedInUser user){
@@ -117,4 +127,40 @@ public class MainActivity extends AppCompatActivity {
         jwt.makeJsonRequest();
     }
 
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
+                        BluetoothAdapter.ERROR);
+                switch (state) {
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.v("MainActivity", "Bluetooth off");
+                        Snackbar snackbar = Snackbar.make(container, "Bluetooth turned off", Snackbar.LENGTH_SHORT);
+                        snackbar.show();
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        Log.v("MainActivity", "Turning Bluetooth off...");
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        Log.v("MainActivity", "Bluetooth on");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        Log.v("MainActivity", "Turning Bluetooth on...");
+                        break;
+                }
+            }
+        }
+    };
+
+    public void doPositiveClick() {
+        finish();
+    }
+
+    public void doNegativeClick() {
+        stopService(new Intent(this, BluetoothConnectionService.class));
+        finish();
+    }
 }

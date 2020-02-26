@@ -37,7 +37,6 @@ public class RatingFragment extends Fragment {
         ratingViewModel =
                 ViewModelProviders.of(this).get(RatingViewModel.class);
         View root = inflater.inflate(R.layout.fragment_rating, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
 
         ButterKnife.bind(this, root);
 

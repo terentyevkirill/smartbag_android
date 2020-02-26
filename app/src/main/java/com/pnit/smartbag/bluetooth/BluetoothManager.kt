@@ -4,6 +4,7 @@ import android.bluetooth.*
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.content.Context
+import android.os.Build
 import android.util.Log.v
 
 class BluetoothManager(var dataListener: DataListener? = null,
@@ -24,6 +25,8 @@ class BluetoothManager(var dataListener: DataListener? = null,
         private set
 
     private val gattCallback = object : BluetoothGattCallback() {
+
+
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             super.onConnectionStateChange(gatt, status, newState)
             if (newState == BluetoothGatt.STATE_CONNECTED) {
@@ -61,7 +64,10 @@ class BluetoothManager(var dataListener: DataListener? = null,
     fun getRemoteDevice(address: String): BluetoothDevice = bluetoothAdapter.getRemoteDevice(address)
 
     fun connectTo(device: BluetoothDevice, context: Context) {
-        this.gatt = device.connectGatt(context, true, gattCallback)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            this.gatt = device.connectGatt(context, true, gattCallback, 2);
+        else
+            this.gatt = device.connectGatt(context, true, gattCallback);
     }
 
     fun disconnect() {

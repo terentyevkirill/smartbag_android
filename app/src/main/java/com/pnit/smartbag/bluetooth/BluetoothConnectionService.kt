@@ -81,7 +81,7 @@ class BluetoothConnectionService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         repository = ActivityRepository(applicationContext)
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY
     }
 
     override fun onCreate() {
@@ -113,13 +113,6 @@ class BluetoothConnectionService : Service() {
         val intent = Intent(event)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
-
-//    private fun broadcastCurrentCubeFace(face: Int) {
-//        val intent = Intent(ACTION_CUBE_FACE_DATA_SENT)
-//        intent.putExtra(EXTRA_CUBE_FACE, face)
-//        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-//    }
-
 
     private fun createNotification(): Notification {
         val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

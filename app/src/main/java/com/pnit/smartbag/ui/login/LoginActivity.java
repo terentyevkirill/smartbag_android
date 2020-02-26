@@ -135,13 +135,12 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-
     }
 
     private void updateUiWithoutRegistration(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Continue without registration", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "Continue without registration", Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

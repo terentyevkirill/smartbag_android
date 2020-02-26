@@ -10,8 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pnit.smartbag.R;
+import com.pnit.smartbag.ui.ServiceAlertDialogFragment;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -44,9 +47,20 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                DialogFragment alertDialogFragment = ServiceAlertDialogFragment.newInstance(
+                        R.string.alert_bluetooth_service);
+                alertDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
         homeViewModel = ViewModelProviders.of(this, new HomeViewModel.Factory(getContext())).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, root);
+
 
         goalProgressBar.setMax(homeViewModel.getGoal());
         dailyStepsTextView.setText(String.valueOf(homeViewModel.getGoal()));
