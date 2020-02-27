@@ -23,8 +23,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.pnit.smartbag.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StatisticsFragment extends Fragment {
 
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
 
     private StatisticsViewModel statisticsViewModel;
 
@@ -32,19 +39,17 @@ public class StatisticsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         statisticsViewModel = ViewModelProviders.of(this, new StatisticsViewModel.Factory(Objects.requireNonNull(getContext()))).get(StatisticsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
-
-        TabLayout tabLayout = root.findViewById(R.id.tabs);
+        ButterKnife.bind(this, root);
 
         int tabCount = 3;
         for (int i = 0; i < tabCount; i++)
             tabLayout.addTab(tabLayout.newTab());
 
-        final ViewPager viewPager = root.findViewById(R.id.viewpager);
         viewPager.setAdapter(new PagerAdapter(getFragmentManager(), tabLayout.getTabCount()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         return root;
     }
