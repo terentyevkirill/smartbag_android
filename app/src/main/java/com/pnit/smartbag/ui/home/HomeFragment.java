@@ -1,5 +1,6 @@
 package com.pnit.smartbag.ui.home;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
 //                caloriesTextView.setText("0");
 //            }
 //        });
-        demoButton.setOnClickListener(v -> homeViewModel.setSteps(100));
+        demoButton.setOnClickListener(v -> {homeViewModel.setSteps(100);});
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), s -> {
             weekdayTextView.setText(homeViewModel.getFormattedData("EEEE"));
             dateTextView.setText(homeViewModel.getFormattedData("MMMM, dd"));
@@ -95,7 +96,6 @@ public class HomeFragment extends Fragment {
             homeViewModel.resetToCurrentDate();
             return true;
         });
-
         return root;
     }
 }

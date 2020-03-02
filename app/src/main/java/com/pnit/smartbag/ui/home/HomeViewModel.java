@@ -42,7 +42,6 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel(Context context) {
         activityRepo = new ActivityRepository(context);
         userRepo = new UserRepository(context);
-        calorieCalculator = new CalorieCalculator(150, 80);
 
         //liveDataSteps = new MutableLiveData<>();
         //liveDataSteps.setValue(String.valueOf(getCurrentSteps()));
@@ -55,6 +54,8 @@ public class HomeViewModel extends ViewModel {
         } else {
             //ToDO: Get User from Remote Database
         }
+
+        calorieCalculator = new CalorieCalculator((int)user.getHeight(), (int)user.getWeight());
     }
 
     public void setDateMinus1(){
@@ -79,7 +80,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getSteps() {
-        return activityRepo.getStepsOfSpecificDay(liveDataDate.getValue());
+        return activityRepo.getStepsOfSpecificDay(currentDate);
     }
 
     public int getGoal(){

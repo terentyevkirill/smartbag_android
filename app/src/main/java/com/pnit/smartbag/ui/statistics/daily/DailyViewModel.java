@@ -7,6 +7,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.pnit.smartbag.data.activity.ActivityRepository;
 import com.pnit.smartbag.data.activity.model.Activity;
+import com.pnit.smartbag.data.calories.CalorieCalculator;
 import com.pnit.smartbag.data.user.UserRepository;
 import com.pnit.smartbag.data.user.model.User;
 import com.pnit.smartbag.utils.BarChartUtils;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,10 +27,15 @@ public class DailyViewModel extends ViewModel {
     private ActivityRepository activityRepository;
     private User user;
 
+    //Access to Calorie Calculator once initialized with height and weight of user
+    private CalorieCalculator calorieCalculator;
+
     private DailyViewModel(Context context) {
         activityRepository = new ActivityRepository(context);
         UserRepository userRepository = new UserRepository(context);
         user = userRepository.findUserWithoutRegistration();
+
+        calorieCalculator = new CalorieCalculator((int)user.getHeight(), (int)user.getWeight());
     }
 
     BarData getBarData() {
@@ -90,6 +97,14 @@ public class DailyViewModel extends ViewModel {
 
     int getUserGoal() {
         return user.getDailyGoal();
+    }
+
+    public int getCalories(int currentSteps){
+        return calorieCalculator.calculateCalories(currentSteps);
+    }
+
+    public Integer getSteps(Date d) {
+        return activityRepository.getStepsOfDay(d);
     }
 
     public static class Factory implements ViewModelProvider.Factory {

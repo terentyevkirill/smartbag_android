@@ -63,7 +63,7 @@ public class SettingsViewModel extends ViewModel {
     }
     public void setGoal(int goal){
         user.setDailyGoal(goal);
-        //TODO UserRepository.update()
+        userRepo.updateUser(user);
     }
 
     Calendar calendar = Calendar.getInstance();
